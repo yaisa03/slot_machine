@@ -110,8 +110,7 @@ def get_bet():
     return amount
 
 
-def main():
-    balance = deposit()
+def spin(balance): # executes one game
     lines = get_number_of_lines()
     while True:
         bet = get_bet()
@@ -126,9 +125,21 @@ def main():
 
     slots = get_slot_machine_spin(ROWS, COLS, symbol_count)
     print_slot_machine(slots)
-    winnings, winnings_lines = check_winnings(slots, lines, bet, symbol_values)
+    winnings, winning_lines = check_winnings(slots, lines, bet, symbol_values)
     print(f"You won ${winnings}.")
-    print(f"You won on lines:", *winnings_lines) # pases every single line form winnings_lines
- 
+    print(f"You won on lines:", *winning_lines) # pases every single line form winnings_lines
+    return winnings - total_bet
+
+
+def main():
+    balance = deposit()
+    while True:
+        print(f"Current balance is: ${balance}")
+        answer = input("Press enter to spin (q to quit).")
+        if answer == "q":
+            break
+        balance += spin(balance)
+    print(f"You are left wih ${balance}")
+
 
 main()
